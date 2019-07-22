@@ -130,9 +130,7 @@ class TemplateSyntaxError(TemplateError):
         got = element.next_text()
         if len(got) > 40:
             got = got[:36] + ' ...'
-        Exception.__init__(
-            self, "line %d, column %d: expected %s in %s, got: %s ..." %
-            (self.line, self.column, expected, self.element_name(), got))
+        self.msg = "line %d, column %d: expected %s in %s, got: %s ..." % (self.line, self.column, expected, self.element_name(), got)
         self.args = (element, expected)
 
     def get_position_strings(self):
@@ -152,6 +150,9 @@ class TemplateSyntaxError(TemplateError):
             lambda m: ' ' +
                       m.group(1).lower(),
             self.element.__class__.__name__).strip()
+
+    def __str__(self):
+        return self.msg
 
 
 class NullLoader:
