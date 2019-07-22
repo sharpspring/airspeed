@@ -114,6 +114,7 @@ class TemplateExecutionError(TemplateError):
                    "%d-%d in expression: %s\n%s: %s" % \
                    (self.filename, self.start, self.end,
                     element.my_text(), cause.__name__, value)
+        self.args = (element, exc_info)
 
     def __str__(self):
         return self.msg
@@ -132,6 +133,7 @@ class TemplateSyntaxError(TemplateError):
         Exception.__init__(
             self, "line %d, column %d: expected %s in %s, got: %s ..." %
             (self.line, self.column, expected, self.element_name(), got))
+        self.args = (element, expected)
 
     def get_position_strings(self):
         error_line_start = 1 + self.text_understood.rfind('\n')
